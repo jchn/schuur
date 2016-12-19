@@ -4,10 +4,10 @@
   "description": "Relational data management for node and the browser",
   "main": "./dist/schuur.min.js",
   "scripts": {
-    "build": "BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.js -t [ babelify --presets [ es2015 ] ] && ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]",
+    "build": "mkdir -p dist && BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.js -t [ babelify --presets [ es2015 ] ] && ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]",
     "test": "xo && nyc ava",
     "report": "nyc report --reporter=html",
-    "prepublish": "BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]"
+    "prepublish": "mkdir -p dist && BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]"
   },
   "author": "john.vd.water85@gmail.com (http://jchn.github.io/)",
   "license": "MIT",
