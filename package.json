@@ -1,0 +1,56 @@
+{
+  "name": "schuur",
+  "version": "0.1.0",
+  "description": "Relational data management for node and the browser",
+  "main": "./dist/schuur.min.js",
+  "scripts": {
+    "build": "BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.js -t [ babelify --presets [ es2015 ] ]",
+    "test": "xo && nyc ava",
+    "report": "nyc report --reporter=html",
+    "prepublish": "BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]"
+  },
+  "author": "john.vd.water85@gmail.com (http://jchn.github.io/)",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "babel-cli": "^6.18.0",
+    "babel-preset-babili": "0.0.9",
+    "babel-preset-env": "^1.1.4",
+    "babel-register": "^6.18.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.1",
+    "coveralls": "^2.11.15",
+    "nyc": "^10.0.0",
+    "xo": "^0.17.1"
+  },
+  "ava": {
+    "require": [
+      "babel-core/register"
+    ]
+  },
+  "xo": {
+    "semicolon": false,
+    "esnext": true,
+    "space": 2,
+    "max-params": 5
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ],
+    "ignore": "test/*.js",
+    "env": {
+      "development": {
+        "sourceMaps": "inline"
+      },
+      "production": {
+        "presets": [
+          "babili"
+        ]
+      }
+    }
+  },
+  "dependencies": {
+    "ramda": "^0.22.1"
+  }
+}
