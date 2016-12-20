@@ -1,4 +1,5 @@
 import test from 'ava'
+import {clone} from 'ramda'
 import {hasMany, belongsTo, addModelToStore, addEntityToStore, addRelatedEntityToEntity} from '../index'
 
 test('addRelatedEntityToEntity should update an belongsTo and hasMany relation', t => {
@@ -150,5 +151,45 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   store = addRelatedEntityToEntity(store, authorModel, '2', bookModel, updatedBook)
 
   // doing things the other way round should give the same result
+  t.deepEqual(store, expectedStore)
+})
+
+test.only('addRelatedEntityToEntity - when repeated multiple times should only add relations once', t => {
+  const authorModel = {
+    type: 'author',
+    typePlural: 'authors'
+  }
+  const bookModel = {
+    type: 'book',
+    typePlural: 'books'
+  }
+
+  bookModel.authors = hasMany(bookModel)
+  authorModel.books = hasMany(bookModel)
+
+  const book = {
+    id: '42',
+    title: 'hitchhiker\'s guide to the galaxy'
+  }
+
+  const author1 = {
+    id: '1',
+    name: 'Douglas Adams'
+  }
+
+  let store = {}
+  store = addModelToStore(store, authorModel)
+  store = addModelToStore(store, bookModel)
+
+  store = addEntityToStore(store, authorModel, author1)
+
+  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+
+  const expectedStore = clone(store)
+
+  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+
   t.deepEqual(store, expectedStore)
 })
