@@ -154,7 +154,7 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   t.deepEqual(store, expectedStore)
 })
 
-test.only('addRelatedEntityToEntity - when repeated multiple times should only add relations once', t => {
+test('addRelatedEntityToEntity - when repeated multiple times should only add relations once', t => {
   const authorModel = {
     type: 'author',
     typePlural: 'authors'
