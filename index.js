@@ -5,6 +5,7 @@ const addEntityToStore = require('./lib/add-entity-to-store')
 const updateEntity = require('./lib/update-entity')
 const addRelatedEntityToEntity = require('./lib/add-related-entity-to-entity')
 const removeEntityFromStore = require('./lib/remove-entity-from-store.js')
+const updateOrAddEntityToStore = require('./lib/update-or-add-entity-to-store')
 
 const Schuur = {
   hasMany,
@@ -13,7 +14,8 @@ const Schuur = {
   addEntityToStore,
   updateEntity,
   addRelatedEntityToEntity,
-  removeEntityFromStore
+  removeEntityFromStore,
+  updateOrAddEntityToStore
 }
 
 module.exports = Schuur
