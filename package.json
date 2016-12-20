@@ -1,8 +1,12 @@
 {
   "name": "schuur",
-  "version": "0.1.0",
+  "version": "0.1.6-next",
   "description": "Relational data management for node and the browser",
-  "main": "./dist/schuur.min.js",
+  "main": "index.js",
+  "files": [
+    "lib",
+    "dist"
+  ],
   "scripts": {
     "build": "mkdir -p dist && BABEL_ENV=production ./node_modules/.bin/browserify index.js -o dist/schuur.js -t [ babelify --presets [ es2015 ] ] && ./node_modules/.bin/browserify index.js -o dist/schuur.min.js -t [ babelify --presets [ es2015 babili ] ]",
     "test": "xo && nyc ava",
@@ -13,9 +17,9 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.17.0",
-    "babel-cli": "^6.18.0",
     "babel-preset-babili": "0.0.9",
     "babel-preset-env": "^1.1.4",
+    "babel-preset-es2015": "^6.18.0",
     "babel-register": "^6.18.0",
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
@@ -37,18 +41,7 @@
   "babel": {
     "presets": [
       "es2015"
-    ],
-    "ignore": "test/*.js",
-    "env": {
-      "development": {
-        "sourceMaps": "inline"
-      },
-      "production": {
-        "presets": [
-          "babili"
-        ]
-      }
-    }
+    ]
   },
   "dependencies": {
     "ramda": "^0.22.1"
