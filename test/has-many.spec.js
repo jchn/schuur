@@ -10,7 +10,7 @@ test('hasMany should add type and model to object', t => {
   const bookModel = {
     type: 'book',
     typePlural: 'books',
-    pages: hasMany(pageModel)
+    ...hasMany(pageModel)
   }
 
   const expectedBookModel = {

@@ -42,7 +42,7 @@ test('addEntityToStore should provide added object/entity with related key with 
   const pageModel = {
     type: 'page',
     typePlural: 'pages',
-    book: belongsTo(bookModel)
+    ...belongsTo(bookModel)
   }
 
   const page = {
@@ -81,7 +81,7 @@ test('addEntityToStore should provide added object/entity with related key with 
   const bookModel = {
     type: 'book',
     typePlural: 'books',
-    pages: hasMany(pageModel)
+    ...hasMany(pageModel)
   }
 
   const book = {
@@ -120,7 +120,7 @@ test('addEntityToStore should overwrite an existing entity if it is already in t
   const bookModel = {
     type: 'book',
     typePlural: 'books',
-    pages: hasMany(pageModel)
+    ...hasMany(pageModel)
   }
 
   const book1 = {

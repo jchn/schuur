@@ -23,12 +23,12 @@ test.beforeEach(t => {
     typePlural: 'summaries'
   }
 
-  bookModel.pages = hasMany(pageModel)
-  pageModel.book = belongsTo(bookModel)
-  bookModel.authors = hasMany(authorModel)
-  authorModel.books = hasMany(bookModel)
-  bookModel.summary = belongsTo(summaryModel)
-  summaryModel.book = belongsTo(bookModel)
+  Object.assign(bookModel, hasMany(pageModel))
+  Object.assign(pageModel, belongsTo(bookModel))
+  Object.assign(bookModel, hasMany(authorModel))
+  Object.assign(authorModel, hasMany(bookModel))
+  Object.assign(bookModel, belongsTo(summaryModel))
+  Object.assign(summaryModel, belongsTo(bookModel))
 
   t.context.bookModel = bookModel
   t.context.pageModel = pageModel

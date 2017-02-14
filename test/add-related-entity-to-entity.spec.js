@@ -2,7 +2,7 @@ import test from 'ava'
 import {clone} from 'ramda'
 import {hasMany, belongsTo, addModelToStore, addEntityToStore, addRelatedEntityToEntity} from '../lib'
 
-test('addRelatedEntityToEntity should update an belongsTo and hasMany relation', t => {
+test('addRelatedEntityToEntity should update a belongsTo and hasMany relation', t => {
   const bookModel = {
     type: 'book',
     typePlural: 'books'
@@ -13,8 +13,8 @@ test('addRelatedEntityToEntity should update an belongsTo and hasMany relation',
     typePlural: 'pages'
   }
 
-  bookModel.pages = hasMany(pageModel)
-  pageModel.book = belongsTo(bookModel)
+  Object.assign(bookModel, hasMany(pageModel))
+  Object.assign(pageModel, belongsTo(bookModel))
 
   const page = {
     id: '1',
@@ -83,8 +83,8 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
     typePlural: 'books'
   }
 
-  bookModel.authors = hasMany(bookModel)
-  authorModel.books = hasMany(bookModel)
+  Object.assign(bookModel, hasMany(authorModel))
+  Object.assign(authorModel, hasMany(bookModel))
 
   const book = {
     id: '42',
@@ -164,8 +164,8 @@ test('addRelatedEntityToEntity - when repeated multiple times should only add re
     typePlural: 'books'
   }
 
-  bookModel.authors = hasMany(bookModel)
-  authorModel.books = hasMany(bookModel)
+  Object.assign(bookModel, hasMany(authorModel))
+  Object.assign(authorModel, hasMany(bookModel))
 
   const book = {
     id: '42',

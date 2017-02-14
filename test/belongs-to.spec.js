@@ -10,7 +10,7 @@ test('belongsTo should add type and model to object', t => {
   const pageModel = {
     type: 'page',
     typePlural: 'pages',
-    book: belongsTo(bookModel)
+    ...belongsTo(bookModel)
   }
 
   const expectedPageModel = {
