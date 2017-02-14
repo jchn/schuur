@@ -57,7 +57,7 @@ test('RemoveEntityFromStore should remove an entity from the store', t => {
 
   store = addEntityToStore(bookModel, book, store)
 
-  t.deepEqual(removeEntityFromStore(store, bookModel, '1'), expectedStore)
+  t.deepEqual(removeEntityFromStore(bookModel, '1', store), expectedStore)
 })
 
 test('RemoveEntityFromStore should only remove a single entity from the store', t => {
@@ -87,7 +87,7 @@ test('RemoveEntityFromStore should only remove a single entity from the store', 
   const expectedStore = clone(store)
 
   store = addEntityToStore(bookModel, book2, store)
-  store = removeEntityFromStore(store, bookModel, '2')
+  store = removeEntityFromStore(bookModel, '2', store)
 
   t.deepEqual(store, expectedStore)
 })
@@ -115,12 +115,12 @@ test('RemoveEntityFromStore should remove references in related entities - hasMa
   store = addModelToStore(bookModel, store)
   store = addModelToStore(pageModel, store)
   store = addEntityToStore(bookModel, book, store)
-  store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page1)
+  store = addRelatedEntityToEntity(bookModel, '1', pageModel, page1, store)
 
   const expectedStore = clone(store)
 
-  store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page2)
-  store = removeEntityFromStore(store, pageModel, '43')
+  store = addRelatedEntityToEntity(bookModel, '1', pageModel, page2, store)
+  store = removeEntityFromStore(pageModel, '43', store)
 
   t.deepEqual(store, expectedStore)
 })
@@ -152,8 +152,8 @@ test('RemoveEntityFromStore should remove references in related entities - belon
   store = addModelToStore(authorModel, store)
   store = addModelToStore(summaryModel, store)
   store = addEntityToStore(bookModel, book, store)
-  store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page1)
-  store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page2)
+  store = addRelatedEntityToEntity(bookModel, '1', pageModel, page1, store)
+  store = addRelatedEntityToEntity(bookModel, '1', pageModel, page2, store)
 
   let expectedStore = addModelToStore(bookModel, {})
   expectedStore = addModelToStore(pageModel, expectedStore)
@@ -162,7 +162,7 @@ test('RemoveEntityFromStore should remove references in related entities - belon
   expectedStore = addEntityToStore(pageModel, page1, expectedStore)
   expectedStore = addEntityToStore(pageModel, page2, expectedStore)
 
-  store = removeEntityFromStore(store, bookModel, '1')
+  store = removeEntityFromStore(bookModel, '1', store)
 
   t.deepEqual(store, expectedStore)
 })
@@ -192,8 +192,8 @@ test('RemoveEntityFromStore should remove references in related entities - belon
 
   const expectedStore = clone(store)
 
-  store = addRelatedEntityToEntity(store, bookModel, '1', summaryModel, summary)
-  store = removeEntityFromStore(store, summaryModel, '50')
+  store = addRelatedEntityToEntity(bookModel, '1', summaryModel, summary, store)
+  store = removeEntityFromStore(summaryModel, '50', store)
 
   t.deepEqual(store, expectedStore)
 })
@@ -223,8 +223,8 @@ test('RemoveEntityFromStore should remove references in related entities - hasMa
 
   const expectedStore = clone(store)
 
-  store = addRelatedEntityToEntity(store, bookModel, '1', authorModel, author)
-  store = removeEntityFromStore(store, authorModel, '1')
+  store = addRelatedEntityToEntity(bookModel, '1', authorModel, author, store)
+  store = removeEntityFromStore(authorModel, '1', store)
 
   t.deepEqual(store, expectedStore)
 })

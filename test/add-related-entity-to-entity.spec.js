@@ -33,7 +33,7 @@ test('addRelatedEntityToEntity should update a belongsTo and hasMany relation', 
   store = addEntityToStore(pageModel, page, store)
 
   // add a book to a page
-  store = addRelatedEntityToEntity(store, pageModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(pageModel, '1', bookModel, book, store)
 
   const expectedStore = {
     pages: {
@@ -67,7 +67,7 @@ test('addRelatedEntityToEntity should update a belongsTo and hasMany relation', 
   store = addEntityToStore(bookModel, book, store)
 
   // add a page to a book
-  store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page)
+  store = addRelatedEntityToEntity(bookModel, '1', pageModel, page, store)
 
   // should give the same result
   t.deepEqual(store, expectedStore)
@@ -105,8 +105,8 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   store = addModelToStore(bookModel, store)
   store = addModelToStore(authorModel, store)
   store = addEntityToStore(bookModel, book, store)
-  store = addRelatedEntityToEntity(store, bookModel, '42', authorModel, author1)
-  store = addRelatedEntityToEntity(store, bookModel, '42', authorModel, author2)
+  store = addRelatedEntityToEntity(bookModel, '42', authorModel, author1, store)
+  store = addRelatedEntityToEntity(bookModel, '42', authorModel, author2, store)
 
   const expectedStore = {
     authors: {
@@ -143,12 +143,12 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   store = addModelToStore(authorModel, store)
   store = addEntityToStore(authorModel, author1, store)
   store = addEntityToStore(authorModel, author2, store)
-  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(authorModel, '1', bookModel, book, store)
 
   // book has been updated by the previous store update, and now holds the relation
   const updatedBook = store.books.byId[book.id]
 
-  store = addRelatedEntityToEntity(store, authorModel, '2', bookModel, updatedBook)
+  store = addRelatedEntityToEntity(authorModel, '2', bookModel, updatedBook, store)
 
   // doing things the other way round should give the same result
   t.deepEqual(store, expectedStore)
@@ -183,13 +183,13 @@ test('addRelatedEntityToEntity - when repeated multiple times should only add re
 
   store = addEntityToStore(authorModel, author1, store)
 
-  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(authorModel, '1', bookModel, book, store)
 
   const expectedStore = clone(store)
 
-  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
-  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
-  store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
+  store = addRelatedEntityToEntity(authorModel, '1', bookModel, book, store)
+  store = addRelatedEntityToEntity(authorModel, '1', bookModel, book, store)
+  store = addRelatedEntityToEntity(authorModel, '1', bookModel, book, store)
 
   t.deepEqual(store, expectedStore)
 })

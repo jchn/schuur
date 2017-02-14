@@ -18,7 +18,7 @@ test('updateEntity should update an entity', t => {
 
   store = addEntityToStore(bookModel, book, store)
 
-  store = updateEntity(store, bookModel, '1', {author: 'Douglas Adams'})
+  store = updateEntity(bookModel, '1', {author: 'Douglas Adams'}, store)
 
   const expectedStore = {
     books: {
