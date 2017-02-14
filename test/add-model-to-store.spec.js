@@ -1,5 +1,5 @@
 import test from 'ava'
-import {addModelToStore} from '../index'
+import {addModelToStore} from '../lib'
 
 test('addModelToStore should prepare store for model', t => {
   const bookModel = {
@@ -8,7 +8,7 @@ test('addModelToStore should prepare store for model', t => {
   }
   let store = {}
 
-  store = addModelToStore(store, bookModel)
+  store = addModelToStore(bookModel, store)
 
   const expectedStore = {
     books: {

@@ -1,5 +1,5 @@
 import test from 'ava'
-import {hasMany, belongsTo, addModelToStore, addEntityToStore} from '../index'
+import {hasMany, belongsTo, addModelToStore, addEntityToStore} from '../lib'
 
 test('addEntityToStore should add an entity to the store', t => {
   const bookModel = {
@@ -9,14 +9,14 @@ test('addEntityToStore should add an entity to the store', t => {
 
   let store = {}
 
-  store = addModelToStore(store, bookModel)
+  store = addModelToStore(bookModel, store)
 
   const book = {
     id: '1',
     title: 'hitchhiker\'s guide to the galaxy'
   }
 
-  store = addEntityToStore(store, bookModel, book)
+  store = addEntityToStore(bookModel, book, store)
 
   const expectedStore = {
     books: {
@@ -52,9 +52,9 @@ test('addEntityToStore should provide added object/entity with related key with 
 
   let store = {}
 
-  store = addModelToStore(store, pageModel)
+  store = addModelToStore(pageModel, store)
 
-  store = addEntityToStore(store, pageModel, page)
+  store = addEntityToStore(pageModel, page, store)
 
   const expectedStore = {
     pages: {
@@ -91,9 +91,9 @@ test('addEntityToStore should provide added object/entity with related key with 
 
   let store = {}
 
-  store = addModelToStore(store, bookModel)
+  store = addModelToStore(bookModel, store)
 
-  store = addEntityToStore(store, bookModel, book)
+  store = addEntityToStore(bookModel, book, store)
 
   const expectedStore = {
     books: {
@@ -135,10 +135,10 @@ test('addEntityToStore should overwrite an existing entity if it is already in t
 
   let store = {}
 
-  store = addModelToStore(store, bookModel)
+  store = addModelToStore(bookModel, store)
 
-  store = addEntityToStore(store, bookModel, book1)
-  store = addEntityToStore(store, bookModel, book2)
+  store = addEntityToStore(bookModel, book1, store)
+  store = addEntityToStore(bookModel, book2, store)
 
   const expectedStore = {
     books: {

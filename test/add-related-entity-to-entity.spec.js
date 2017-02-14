@@ -1,6 +1,6 @@
 import test from 'ava'
 import {clone} from 'ramda'
-import {hasMany, belongsTo, addModelToStore, addEntityToStore, addRelatedEntityToEntity} from '../index'
+import {hasMany, belongsTo, addModelToStore, addEntityToStore, addRelatedEntityToEntity} from '../lib'
 
 test('addRelatedEntityToEntity should update an belongsTo and hasMany relation', t => {
   const bookModel = {
@@ -28,9 +28,9 @@ test('addRelatedEntityToEntity should update an belongsTo and hasMany relation',
 
   let store = {}
 
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, bookModel)
-  store = addEntityToStore(store, pageModel, page)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(bookModel, store)
+  store = addEntityToStore(pageModel, page, store)
 
   // add a book to a page
   store = addRelatedEntityToEntity(store, pageModel, '1', bookModel, book)
@@ -62,9 +62,9 @@ test('addRelatedEntityToEntity should update an belongsTo and hasMany relation',
 
   store = {}
 
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, bookModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(bookModel, store)
+  store = addEntityToStore(bookModel, book, store)
 
   // add a page to a book
   store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page)
@@ -102,9 +102,9 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   }
 
   let store = {}
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, authorModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addEntityToStore(bookModel, book, store)
   store = addRelatedEntityToEntity(store, bookModel, '42', authorModel, author1)
   store = addRelatedEntityToEntity(store, bookModel, '42', authorModel, author2)
 
@@ -139,10 +139,10 @@ test('addRelatedEntityToEntity should create many to many relationships', t => {
   t.deepEqual(store, expectedStore)
 
   store = {}
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, authorModel)
-  store = addEntityToStore(store, authorModel, author1)
-  store = addEntityToStore(store, authorModel, author2)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addEntityToStore(authorModel, author1, store)
+  store = addEntityToStore(authorModel, author2, store)
   store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
 
   // book has been updated by the previous store update, and now holds the relation
@@ -178,10 +178,10 @@ test('addRelatedEntityToEntity - when repeated multiple times should only add re
   }
 
   let store = {}
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, bookModel)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(bookModel, store)
 
-  store = addEntityToStore(store, authorModel, author1)
+  store = addEntityToStore(authorModel, author1, store)
 
   store = addRelatedEntityToEntity(store, authorModel, '1', bookModel, book)
 

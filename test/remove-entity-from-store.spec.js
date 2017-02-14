@@ -1,6 +1,6 @@
 import test from 'ava'
 import {clone} from 'ramda'
-import {removeEntityFromStore, addModelToStore, addEntityToStore, addRelatedEntityToEntity, belongsTo, hasMany} from '../index'
+import {removeEntityFromStore, addModelToStore, addEntityToStore, addRelatedEntityToEntity, belongsTo, hasMany} from '../lib'
 
 test.beforeEach(t => {
   const pageModel = {
@@ -48,14 +48,14 @@ test('RemoveEntityFromStore should remove an entity from the store', t => {
     title: 'hitchhiker\'s guide to the galaxy'
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, summaryModel)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(summaryModel, store)
 
   const expectedStore = clone(store)
 
-  store = addEntityToStore(store, bookModel, book)
+  store = addEntityToStore(bookModel, book, store)
 
   t.deepEqual(removeEntityFromStore(store, bookModel, '1'), expectedStore)
 })
@@ -77,16 +77,16 @@ test('RemoveEntityFromStore should only remove a single entity from the store', 
     title: 'Node.js for beginners'
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, summaryModel)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(summaryModel, store)
 
-  store = addEntityToStore(store, bookModel, book1)
+  store = addEntityToStore(bookModel, book1, store)
 
   const expectedStore = clone(store)
 
-  store = addEntityToStore(store, bookModel, book2)
+  store = addEntityToStore(bookModel, book2, store)
   store = removeEntityFromStore(store, bookModel, '2')
 
   t.deepEqual(store, expectedStore)
@@ -112,9 +112,9 @@ test('RemoveEntityFromStore should remove references in related entities - hasMa
     number: 43
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addEntityToStore(bookModel, book, store)
   store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page1)
 
   const expectedStore = clone(store)
@@ -147,20 +147,20 @@ test('RemoveEntityFromStore should remove references in related entities - belon
     number: 43
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, summaryModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(summaryModel, store)
+  store = addEntityToStore(bookModel, book, store)
   store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page1)
   store = addRelatedEntityToEntity(store, bookModel, '1', pageModel, page2)
 
-  let expectedStore = addModelToStore({}, bookModel)
-  expectedStore = addModelToStore(expectedStore, pageModel)
-  expectedStore = addModelToStore(expectedStore, authorModel)
-  expectedStore = addModelToStore(expectedStore, summaryModel)
-  expectedStore = addEntityToStore(expectedStore, pageModel, page1)
-  expectedStore = addEntityToStore(expectedStore, pageModel, page2)
+  let expectedStore = addModelToStore(bookModel, {})
+  expectedStore = addModelToStore(pageModel, expectedStore)
+  expectedStore = addModelToStore(authorModel, expectedStore)
+  expectedStore = addModelToStore(summaryModel, expectedStore)
+  expectedStore = addEntityToStore(pageModel, page1, expectedStore)
+  expectedStore = addEntityToStore(pageModel, page2, expectedStore)
 
   store = removeEntityFromStore(store, bookModel, '1')
 
@@ -184,11 +184,11 @@ test('RemoveEntityFromStore should remove references in related entities - belon
     text: 'Lorum ipsum dolor sit amet.'
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, summaryModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(summaryModel, store)
+  store = addEntityToStore(bookModel, book, store)
 
   const expectedStore = clone(store)
 
@@ -215,11 +215,11 @@ test('RemoveEntityFromStore should remove references in related entities - hasMa
     name: 'Douglas Adams'
   }
 
-  store = addModelToStore(store, bookModel)
-  store = addModelToStore(store, pageModel)
-  store = addModelToStore(store, authorModel)
-  store = addModelToStore(store, summaryModel)
-  store = addEntityToStore(store, bookModel, book)
+  store = addModelToStore(bookModel, store)
+  store = addModelToStore(pageModel, store)
+  store = addModelToStore(authorModel, store)
+  store = addModelToStore(summaryModel, store)
+  store = addEntityToStore(bookModel, book, store)
 
   const expectedStore = clone(store)
 

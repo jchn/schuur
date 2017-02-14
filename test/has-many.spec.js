@@ -1,5 +1,5 @@
 import test from 'ava'
-import {hasMany} from '../index'
+import {hasMany} from '../lib'
 
 test('hasMany should add type and model to object', t => {
   const pageModel = {

@@ -1,5 +1,5 @@
 import test from 'ava'
-import {belongsTo} from '../index'
+import {belongsTo} from '../lib'
 
 test('belongsTo should add type and model to object', t => {
   const bookModel = {
