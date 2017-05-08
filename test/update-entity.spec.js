@@ -18,7 +18,15 @@ test('updateEntity should update an entity', t => {
 
   store = addEntityToStore(bookModel, book, store)
 
+  const bookRef1 = store.books.byId['1']
+  const booksRef1 = store.books
+  const booksByIdRef1 = store.books.byId
+
   store = updateEntity(bookModel, '1', {author: 'Douglas Adams'}, store)
+
+  const bookRef2 = store.books.byId['1']
+  const booksRef2 = store.books
+  const booksByIdRef2 = store.books.byId
 
   const expectedStore = {
     books: {
@@ -34,4 +42,12 @@ test('updateEntity should update an entity', t => {
   }
 
   t.deepEqual(store, expectedStore)
+
+  console.log(bookRef1.title)
+  console.log(bookRef2.title)
+
+  t.not(bookRef1, bookRef2)
+  t.not(booksRef1, booksRef2)
+  t.not(booksByIdRef1, booksByIdRef2)
+  t.notDeepEqual(bookRef1, bookRef2)
 })
